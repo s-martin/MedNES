@@ -2,3 +2,5 @@ NES/roms/*
 !screenshots/*
 NES/*.o
 MedNES
+.vs
+build
