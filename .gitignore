@@ -3,3 +3,5 @@ NES/roms/*
 NES/**/*.o
 MedNES
 .vscode
+.vs
+build
