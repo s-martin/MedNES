@@ -2,21 +2,13 @@
 MedNES is a cycle-accurate NES emulator written in C++.
 Supported mappers: NROM(0)
 
-## Usage
-
-```bash
-git clone https://github.com/wpmed92/MedNES.git
-make
-./MedNES -insert <path/to/rom>
-```
-
-## Install SDL2
+## Prerequisites: install SDL2
 
 ### From web site
 
-[lib SDL2](https://www.libsdl.org/download-2.0.php)
+[SDL2 library](https://www.libsdl.org/download-2.0.php)
 
-### From apt (ubuntu, debian)
+### From apt (Ubuntu, Debian)
 
 ```bash
 sudo apt install libsdl2-2.0-0 libsdl2-dev
@@ -26,6 +18,24 @@ sudo apt install libsdl2-2.0-0 libsdl2-dev
 
 ```bash
 sudo pacman -S libsdl2-2.0-0 libsdl2-dev
+```
+
+### From vcpkg (Windows, Linux, macOS)
+
+```bash
+vcpkg install sdl2
+```
+
+## Usage
+
+[CMake](https://www.cmake.org/) is required to build MedNES.
+
+```bash
+git clone https://github.com/wpmed92/MedNES.git
+mkdir build && cd build
+cmake ../
+make
+./MedNES -insert <path/to/rom>
 ```
 
 ## Screenshots
