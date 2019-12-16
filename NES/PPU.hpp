@@ -1,10 +1,10 @@
 #ifndef PPU_hpp
 #define PPU_hpp
 
-#include <stdio.h>
-#include <stdint.h>
 #include "INESBus.hpp"
 #include "ROM.hpp"
+#include <cstdint>
+#include <cstdio>
 
 struct Sprite {
     uint8_t y;
@@ -122,8 +122,8 @@ public:
     int dot = 0;
     PPU(ROM* rom) : rom(rom) { buffer = new uint32_t[256*240]; };
     //cpu address space
-    uint8_t* read(uint16_t address);
-    void write(uint16_t address, uint8_t data);
+    uint8_t* read(uint16_t address) override;
+    void write(uint16_t address, uint8_t data) override;
     
     //ppu address space
     uint8_t ppuread(uint16_t address);

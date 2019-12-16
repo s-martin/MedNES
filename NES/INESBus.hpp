@@ -1,8 +1,8 @@
 #ifndef INESBus_hpp
 #define INESBus_hpp
 
-#include <stdio.h>
-#include <stdint.h>
+#include <cstdint>
+#include <cstdio>
 
 class INESBus {
 public:

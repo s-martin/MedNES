@@ -1,16 +1,16 @@
 #ifndef _502_hpp
 #define _502_hpp
 
-#include <stdio.h>
-#include <stdint.h>
-#include <vector>
-#include <sstream>
-#include <iostream>
-#include <functional>
+#include "Controller.hpp"
+#include "PPU.hpp"
 #include "RAM.hpp"
 #include "ROM.hpp"
-#include "PPU.hpp"
-#include "Controller.hpp"
+#include <cstdint>
+#include <cstdio>
+#include <functional>
+#include <iostream>
+#include <sstream>
+#include <vector>
 
 struct ExecutionState {
     uint8_t accumulator;

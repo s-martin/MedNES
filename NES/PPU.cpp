@@ -196,9 +196,9 @@ inline void PPU::emitPixel() {
     bool showSprite = false;
     bool spriteFound = false;
     
-    for (int i = 0; i < spriteRenderEntities.size(); i++) {
-        if (spriteRenderEntities[i].isActive) {
-            SpriteRenderEntity &sprite = spriteRenderEntities[i];
+    for (auto & spriteRenderEntitie : spriteRenderEntities) {
+        if (spriteRenderEntitie.isActive) {
+            SpriteRenderEntity &sprite = spriteRenderEntitie;
             
             if (spriteFound) {
                 sprite.shift();
@@ -479,14 +479,14 @@ inline void PPU::decrementSpriteCounters() {
         return;
     }
     
-    for (int i = 0; i < spriteRenderEntities.size(); i++) {
+    for (auto & spriteRenderEntitie : spriteRenderEntities) {
         if (spriteRenderEntities.size() == 0)
             break;
-        if (spriteRenderEntities[i].counter != 0) {
-           spriteRenderEntities[i].counter--;
+        if (spriteRenderEntitie.counter != 0) {
+           spriteRenderEntitie.counter--;
             
-            if (spriteRenderEntities[i].counter == 0) {
-                spriteRenderEntities[i].isActive = true;
+            if (spriteRenderEntitie.counter == 0) {
+                spriteRenderEntitie.isActive = true;
             }
         }
     }

@@ -1,5 +1,5 @@
 #include "6502.hpp"
-#include <assert.h>
+#include <cassert>
 
 void CPU6502::step() {
     if (ppu->genNMI()) {
@@ -700,22 +700,22 @@ void CPU6502::BRK() {
 }
 
 void CPU6502::CLC() {
-    setCarry(0);
+    setCarry(false);
     tick();
 }
 
 void CPU6502::CLD() {
-    setDecimal(0);
+    setDecimal(false);
     tick();
 }
 
 void CPU6502::CLI() {
-    setInterruptDisable(0);
+    setInterruptDisable(false);
     tick();
 }
 
 void CPU6502::CLV() {
-    setOverflow(0);
+    setOverflow(false);
     tick();
 }
 
@@ -924,8 +924,8 @@ void CPU6502::PLA() {
 
 void CPU6502::PLP() {
     statusRegister = popStack();
-    setBreak4(0);
-    setBreak5(1);
+    setBreak4(false);
+    setBreak5(true);
     tick(); tick();
 }
 
@@ -981,8 +981,8 @@ void CPU6502::ROR_val(uint8_t* data) {
 
 void CPU6502::RTI() {
     statusRegister = popStack();
-    setBreak4(0);
-    setBreak5(1);
+    setBreak4(false);
+    setBreak5(true);
     uint8_t pcLsb = popStack();
     uint8_t pcMsb = popStack();
     programCounter = pcMsb * 256 + pcLsb - 1;
@@ -1005,17 +1005,17 @@ void CPU6502::SBC(uint8_t data) {
 }
 
 void CPU6502::SEC() {
-    setCarry(1);
+    setCarry(true);
     tick();
 }
 
 void CPU6502::SED() {
-    setDecimal(1);
+    setDecimal(true);
     tick();
 }
 
 void CPU6502::SEI() {
-    setInterruptDisable(1);
+    setInterruptDisable(true);
     tick();
 }
 

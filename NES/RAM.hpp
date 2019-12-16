@@ -1,9 +1,9 @@
 #ifndef RAM_hpp
 #define RAM_hpp
 
-#include <stdio.h>
-#include <stdint.h>
 #include "INESBus.hpp"
+#include <cstdint>
+#include <cstdio>
 
 class RAM : public INESBus {
     
@@ -12,8 +12,8 @@ private:
     uint8_t ram[2048] = {0};
     
 public:
-    uint8_t* read(uint16_t address);
-    void write(uint16_t address, uint8_t data);
+    uint8_t* read(uint16_t address) override;
+    void write(uint16_t address, uint8_t data) override;
 };
 
 #endif /* RAM_hpp */

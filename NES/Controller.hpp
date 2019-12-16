@@ -1,9 +1,9 @@
 #ifndef Controller_hpp
 #define Controller_hpp
 
-#include <stdio.h>
-#include <string>
 #include "INESBus.hpp"
+#include <cstdio>
+#include <string>
 
 #include <SDL2/SDL.h>
 class Controller : INESBus {
@@ -15,8 +15,8 @@ class Controller : INESBus {
     
 public:
     //Bus
-    uint8_t* read(uint16_t address);
-    void write(uint16_t address, uint8_t data);
+    uint8_t* read(uint16_t address) override;
+    void write(uint16_t address, uint8_t data) override;
     
     //Input
     void setButtonPressed(SDL_Keycode, bool);

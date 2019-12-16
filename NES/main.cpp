@@ -41,7 +41,7 @@ int main(int argc, char ** argv) {
         SDL_WINDOW_SHOWN                  // flags - see below
     );
 
-    if (window == NULL) {
+    if (window == nullptr) {
         printf("Could not create window: %s\n", SDL_GetError());
         return 1;
     }
@@ -103,9 +103,9 @@ int main(int argc, char ** argv) {
             //Draw frame
             ppu.generateFrame = false;
             SDL_RenderSetScale(s, 2, 2);
-            SDL_UpdateTexture(texture, NULL, ppu.buffer, 256 * sizeof(Uint32));
+            SDL_UpdateTexture(texture, nullptr, ppu.buffer, 256 * sizeof(Uint32));
             SDL_RenderClear(s);
-            SDL_RenderCopy(s, texture, NULL, NULL);
+            SDL_RenderCopy(s, texture, nullptr, nullptr);
             SDL_RenderPresent(s);
         }
     }

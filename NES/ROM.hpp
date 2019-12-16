@@ -1,12 +1,12 @@
 #ifndef ROM_hpp
 #define ROM_hpp
 
-#include <stdio.h>
-#include <stdint.h>
+#include "INESBus.hpp"
+#include <bitset>
+#include <cstdint>
+#include <cstdio>
 #include <string>
 #include <vector>
-#include <bitset>
-#include "INESBus.hpp"
 
 struct INESHeader {
     //Header 16 byte
@@ -39,8 +39,8 @@ public:
     int getMirroring();
     
     //cpu address space
-    uint8_t* read(uint16_t address);
-    void write(uint16_t address, uint8_t data);
+    uint8_t* read(uint16_t address) override;
+    void write(uint16_t address, uint8_t data) override;
     
     //ppu address space
     uint8_t ppuread(uint16_t address);
