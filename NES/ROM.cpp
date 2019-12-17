@@ -3,7 +3,7 @@
 #include <iostream>
 #include <algorithm>
 
-void ROM::open(std::string filePath ) {
+void ROM::open(const std::string& filePath ) {
     std::ifstream in(filePath, std::ios::binary);
     
     //Read header

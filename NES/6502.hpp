@@ -111,17 +111,17 @@ private:
     
     uint16_t relative();
     
-    void ADC(std::function<uint16_t()>);
+    void ADC(const std::function<uint16_t()>&);
     
     void ADC(uint8_t); //for RRA
     
     //And with accumulator
-    void AND(std::function<uint16_t()>);
+    void AND(const std::function<uint16_t()>&);
     
     void AND(uint8_t); //for RLA
     
     //Arithmetic shift left
-    void ASL(std::function<uint16_t()>);
+    void ASL(const std::function<uint16_t()>&);
     
     void ASL_val(uint8_t*); //for SLO
     
@@ -135,7 +135,7 @@ private:
     void BEQ(std::function<uint16_t()>);
     
     //Bit test
-    void BIT(std::function<uint16_t()>);
+    void BIT(const std::function<uint16_t()>&);
     
     //Branch on minus (negative set)
     void BMI(std::function<uint16_t()>);
@@ -168,18 +168,18 @@ private:
     void CLV();
     
     //Compare (with accumulator}
-    void CMP(std::function<uint16_t()>);
+    void CMP(const std::function<uint16_t()>&);
     
     void CMP(uint8_t); //for DCP
     
     //Compare with X
-    void CPX(std::function<uint16_t()>);
+    void CPX(const std::function<uint16_t()>&);
     
     //Compare with Y
-    void CPY(std::function<uint16_t()>);
+    void CPY(const std::function<uint16_t()>&);
     
     //Decrement
-    void DEC(std::function<uint16_t()>);
+    void DEC(const std::function<uint16_t()>&);
     
     void DEC(uint8_t*); //for DCP
     
@@ -190,12 +190,12 @@ private:
     void DEY();
     
     //Exclusive or (with accumulator)
-    void EOR(std::function<uint16_t()>);
+    void EOR(const std::function<uint16_t()>&);
     
     void EOR(uint8_t); //for SRE
     
     //Increment
-    void INC(std::function<uint16_t()>);
+    void INC(const std::function<uint16_t()>&);
     
     void INC(uint8_t*); //for ISB
     
@@ -206,31 +206,31 @@ private:
     void INY();
     
     //Jump
-    void JMP(std::function<uint16_t()>);
+    void JMP(const std::function<uint16_t()>&);
     
     //Jump subroutine
-    void JSR(std::function<uint16_t()>);
+    void JSR(const std::function<uint16_t()>&);
     
     //Load accumulator
-    void LDA(std::function<uint16_t()>);
+    void LDA(const std::function<uint16_t()>&);
     
     void LDA(uint8_t); //for LAX
     
     //Load X
-    void LDX(std::function<uint16_t()>);
+    void LDX(const std::function<uint16_t()>&);
     
     void LDX(uint8_t); //for LAX
     
     //Load Y
-    void LDY(std::function<uint16_t()>);
+    void LDY(const std::function<uint16_t()>&);
     
     //Logical shift right
-    void LSR(std::function<uint16_t()>);
+    void LSR(const std::function<uint16_t()>&);
     
     void LSR_val(uint8_t*); //for SRE
     
     //Or with accumulator
-    void ORA(std::function<uint16_t()>);
+    void ORA(const std::function<uint16_t()>&);
     
     void ORA(uint8_t); //for SLO
     
@@ -247,12 +247,12 @@ private:
     void PLP();
     
     //Rotate left
-    void ROL(std::function<uint16_t()>);
+    void ROL(const std::function<uint16_t()>&);
     
     void ROL_val(uint8_t*);
     
     //Rotate right
-    void ROR(std::function<uint16_t()>);
+    void ROR(const std::function<uint16_t()>&);
     
     void ROR_val(uint8_t*); //for RRA
     
@@ -263,7 +263,7 @@ private:
     void RTS();
     
     //Subtract with carrz
-    void SBC(std::function<uint16_t()>);
+    void SBC(const std::function<uint16_t()>&);
     
     void SBC(uint8_t); //for ISB
     
@@ -277,13 +277,13 @@ private:
     void SEI();
     
     //Store accumulator
-    void STA(std::function<uint16_t()>);
+    void STA(const std::function<uint16_t()>&);
     
     //Store X
-    void STX(std::function<uint16_t()>);
+    void STX(const std::function<uint16_t()>&);
     
     //Store Y
-    void STY(std::function<uint16_t()>);
+    void STY(const std::function<uint16_t()>&);
     
     //Transfer accumulator to X
     void TAX();
@@ -304,25 +304,25 @@ private:
     void TYA();
     
     //UNOFFICIAL ONES
-    void NOP(std::function<uint16_t()>);
+    void NOP(const std::function<uint16_t()>&);
     
-    void LAX(std::function<uint16_t()>);
+    void LAX(const std::function<uint16_t()>&);
     
-    void SAX(std::function<uint16_t()>);
+    void SAX(const std::function<uint16_t()>&);
     
-    void DCP(std::function<uint16_t()>);
+    void DCP(const std::function<uint16_t()>&);
     
-    void ISB(std::function<uint16_t()>);
+    void ISB(const std::function<uint16_t()>&);
     
-    void SLO(std::function<uint16_t()>);
+    void SLO(const std::function<uint16_t()>&);
     
-    void RLA(std::function<uint16_t()>);
+    void RLA(const std::function<uint16_t()>&);
     
-    void RRA(std::function<uint16_t()>);
+    void RRA(const std::function<uint16_t()>&);
     
-    void SRE(std::function<uint16_t()>);
+    void SRE(const std::function<uint16_t()>&);
     
-    void commonBranchLogic(bool, std::function<uint16_t()>);
+    void commonBranchLogic(bool, const std::function<uint16_t()>&);
     
     void tickIfToNewPage(uint16_t, uint16_t);
     

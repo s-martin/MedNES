@@ -1,5 +1,6 @@
 #include "6502.hpp"
 #include <cassert>
+#include <utility>
 
 void CPU6502::step() {
     if (ppu->genNMI()) {
@@ -575,7 +576,7 @@ uint8_t CPU6502::popStack() {
     return *read(stackPointer + 256);
 }
 
-void CPU6502::ADC(std::function<uint16_t()> addressing) {
+void CPU6502::ADC(const std::function<uint16_t()>& addressing) {
     ADC(*read(addressing()));
 }
 
@@ -590,7 +591,7 @@ void CPU6502::ADC(uint8_t data) {
     setOverflow(overflow);
 }
 
-void CPU6502::AND(std::function<uint16_t()> addressing) {
+void CPU6502::AND(const std::function<uint16_t()>& addressing) {
     AND(*read(addressing()));
 }
 
@@ -600,7 +601,7 @@ void CPU6502::AND(uint8_t data) {
     setZero(accumulator == 0);
 }
 
-void CPU6502::ASL(std::function<uint16_t()> addressing) {
+void CPU6502::ASL(const std::function<uint16_t()>& addressing) {
     uint8_t* data = nullptr;
     
     if (addressing == nullptr) {
@@ -623,7 +624,7 @@ void CPU6502::ASL_val(uint8_t* data) {
     setZero(*data == 0);
 }
 
-void CPU6502::commonBranchLogic(bool expr, std::function<uint16_t()> resolvePC) {
+void CPU6502::commonBranchLogic(bool expr, const std::function<uint16_t()>& resolvePC) {
     if (expr) {
         uint16_t newPC = resolvePC();
         tickIfToNewPage(programCounter+1, newPC+1);
@@ -637,45 +638,45 @@ void CPU6502::commonBranchLogic(bool expr, std::function<uint16_t()> resolvePC) 
 
 void CPU6502::BCC(std::function<uint16_t()> resolvePC) {
     uint8_t carry = statusRegister & 1;
-    commonBranchLogic(!carry, resolvePC);
+    commonBranchLogic(!carry, std::move(resolvePC));
 }
 
 void CPU6502::BCS(std::function<uint16_t()> resolvePC) {
     uint8_t carry = statusRegister & 1;
-    commonBranchLogic(carry, resolvePC);
+    commonBranchLogic(carry, std::move(resolvePC));
 }
 
 void CPU6502::BEQ(std::function<uint16_t()> resolvePC) {
     uint8_t zero = (statusRegister >> 1) & 1;
-    commonBranchLogic(zero, resolvePC);
+    commonBranchLogic(zero, std::move(resolvePC));
 }
 
 void CPU6502::BMI(std::function<uint16_t()> resolvePC) {
     uint8_t neg = (statusRegister >> 7) & 1;
-    commonBranchLogic(neg, resolvePC);
+    commonBranchLogic(neg, std::move(resolvePC));
 }
 
 void CPU6502::BNE(std::function<uint16_t()> resolvePC) {
     uint8_t zero = (statusRegister >> 1) & 1;
-    commonBranchLogic(!zero, resolvePC);
+    commonBranchLogic(!zero, std::move(resolvePC));
 }
 
 void CPU6502::BPL(std::function<uint16_t()> resolvePC) {
     uint8_t neg = (statusRegister >> 7) & 1;
-    commonBranchLogic(!neg, resolvePC);
+    commonBranchLogic(!neg, std::move(resolvePC));
 }
 
 void CPU6502::BVC(std::function<uint16_t()> resolvePC) {
     uint8_t overflow = (statusRegister >> 6) & 1;
-    commonBranchLogic(!overflow, resolvePC);
+    commonBranchLogic(!overflow, std::move(resolvePC));
 }
 
 void CPU6502::BVS(std::function<uint16_t()> resolvePC) {
     uint8_t overflow = (statusRegister >> 6) & 1;
-    commonBranchLogic(overflow, resolvePC);
+    commonBranchLogic(overflow, std::move(resolvePC));
 }
 
-void CPU6502::BIT(std::function<uint16_t()> addressing) {
+void CPU6502::BIT(const std::function<uint16_t()>& addressing) {
     uint8_t data = *read(addressing());
     uint8_t result = accumulator & data;
     uint8_t data_bit6 = (data >> 6) & 1;
@@ -719,7 +720,7 @@ void CPU6502::CLV() {
     tick();
 }
 
-void CPU6502::CMP(std::function<uint16_t()> addressing) {
+void CPU6502::CMP(const std::function<uint16_t()>& addressing) {
     CMP(*read(addressing()));
 }
 
@@ -730,7 +731,7 @@ void CPU6502::CMP(uint8_t data) {
     setNegative(cmp & 0x80);
 }
 
-void CPU6502::CPX(std::function<uint16_t()> addressing) {
+void CPU6502::CPX(const std::function<uint16_t()>& addressing) {
     uint8_t data = *read(addressing());
     uint8_t cmp = xRegister - data;
     setCarry(xRegister >= data);
@@ -738,7 +739,7 @@ void CPU6502::CPX(std::function<uint16_t()> addressing) {
     setNegative(cmp & 0x80);
 }
 
-void CPU6502::CPY(std::function<uint16_t()> addressing) {
+void CPU6502::CPY(const std::function<uint16_t()>& addressing) {
     uint8_t data = *read(addressing());
     uint8_t cmp = yRegister - data;
     setCarry(yRegister >= data);
@@ -746,7 +747,7 @@ void CPU6502::CPY(std::function<uint16_t()> addressing) {
     setNegative(cmp & 0x80);
 }
 
-void CPU6502::DEC(std::function<uint16_t()> addressing) {
+void CPU6502::DEC(const std::function<uint16_t()>& addressing) {
     DEC(read(addressing()));
 }
 
@@ -772,7 +773,7 @@ void CPU6502::DEY() {
     tick();
 }
 
-void CPU6502::EOR(std::function<uint16_t()> addressing) {
+void CPU6502::EOR(const std::function<uint16_t()>& addressing) {
     EOR(*read(addressing()));
 }
 
@@ -782,7 +783,7 @@ void CPU6502::EOR(uint8_t data) {
     setNegative(accumulator & 0x80);
 }
 
-void CPU6502::INC(std::function<uint16_t()> addressing) {
+void CPU6502::INC(const std::function<uint16_t()>& addressing) {
     INC(read(addressing()));
 }
 
@@ -808,7 +809,7 @@ void CPU6502::INY() {
     tick();
 }
 
-void CPU6502::JMP(std::function<uint16_t()> addressing) {
+void CPU6502::JMP(const std::function<uint16_t()>& addressing) {
     //indirect
     if (addressing == nullptr) {
         uint8_t lsb = *read(programCounter + 1);
@@ -823,7 +824,7 @@ void CPU6502::JMP(std::function<uint16_t()> addressing) {
     }
 }
 
-void CPU6502::JSR(std::function<uint16_t()> addressing) {
+void CPU6502::JSR(const std::function<uint16_t()>& addressing) {
     uint16_t jumpAddress = addressing();
     uint8_t lsb = programCounter & 0xFF;
     uint8_t msb = programCounter >> 8;
@@ -833,7 +834,7 @@ void CPU6502::JSR(std::function<uint16_t()> addressing) {
     tick();
 }
 
-void CPU6502::LDA(std::function<uint16_t()> addressing) {
+void CPU6502::LDA(const std::function<uint16_t()>& addressing) {
     LDA(*read(addressing()));
 }
 
@@ -849,17 +850,17 @@ void CPU6502::LDX(uint8_t data) {
     setNegative(xRegister & 0x80);
 }
 
-void CPU6502::LDX(std::function<uint16_t()> addressing) {
+void CPU6502::LDX(const std::function<uint16_t()>& addressing) {
     LDX(*read(addressing()));
 }
 
-void CPU6502::LDY(std::function<uint16_t()> addressing) {
+void CPU6502::LDY(const std::function<uint16_t()>& addressing) {
     yRegister = *read(addressing());
     setZero(yRegister == 0);
     setNegative(yRegister & 0x80);
 }
 
-void CPU6502::LSR(std::function<uint16_t()> addressing) {
+void CPU6502::LSR(const std::function<uint16_t()>& addressing) {
     uint8_t* data = nullptr;
     
     if (addressing == nullptr) {
@@ -883,7 +884,7 @@ void CPU6502::LSR_val(uint8_t* data) {
 }
 
 
-void CPU6502::NOP(std::function<uint16_t()> addressing) {
+void CPU6502::NOP(const std::function<uint16_t()>& addressing) {
     //Unofficial ones have addressing modes.
     if (addressing != nullptr) {
         addressing();
@@ -892,7 +893,7 @@ void CPU6502::NOP(std::function<uint16_t()> addressing) {
     }
 }
 
-void CPU6502::ORA(std::function<uint16_t()> addressing) {
+void CPU6502::ORA(const std::function<uint16_t()>& addressing) {
     ORA(*read(addressing()));
 }
 
@@ -929,7 +930,7 @@ void CPU6502::PLP() {
     tick(); tick();
 }
 
-void CPU6502::ROL(std::function<uint16_t()> addressing) {
+void CPU6502::ROL(const std::function<uint16_t()>& addressing) {
     uint8_t* data = nullptr;
     
     if (addressing == nullptr) {
@@ -954,7 +955,7 @@ void CPU6502::ROL_val(uint8_t* data) {
     setNegative(*data & 0x80);
 }
 
-void CPU6502::ROR(std::function<uint16_t()> addressing) {
+void CPU6502::ROR(const std::function<uint16_t()>& addressing) {
     uint8_t* data = nullptr;
     
     if (addressing == nullptr) {
@@ -996,7 +997,7 @@ void CPU6502::RTS() {
     tick(); tick(); tick();
 }
 
-void CPU6502::SBC(std::function<uint16_t()> addressing) {
+void CPU6502::SBC(const std::function<uint16_t()>& addressing) {
     SBC(*read(addressing()));
 }
 
@@ -1019,15 +1020,15 @@ void CPU6502::SEI() {
     tick();
 }
 
-void CPU6502::STA(std::function<uint16_t()> addressing) {
+void CPU6502::STA(const std::function<uint16_t()>& addressing) {
     write(addressing(), accumulator);
 }
 
-void CPU6502::STX(std::function<uint16_t()> addressing) {
+void CPU6502::STX(const std::function<uint16_t()>& addressing) {
     write(addressing(), xRegister);
 }
 
-void CPU6502::STY(std::function<uint16_t()> addressing) {
+void CPU6502::STY(const std::function<uint16_t()>& addressing) {
     write(addressing(), yRegister);
 }
 
@@ -1073,33 +1074,33 @@ void CPU6502::TYA() {
 
 //UNOFFICIAL OPCODES
 //LDA+LDX
-void CPU6502::LAX(std::function<uint16_t()> addressing) {
+void CPU6502::LAX(const std::function<uint16_t()>& addressing) {
     uint8_t data = *read(addressing());
     LDA(data);
     LDX(data);
 }
 
 //STA+acc&x
-void CPU6502::SAX(std::function<uint16_t()> addressing) {
+void CPU6502::SAX(const std::function<uint16_t()>& addressing) {
     write(addressing(), accumulator & xRegister);
 }
 
 //DEC+CMP
-void CPU6502::DCP(std::function<uint16_t()> addressing) {
+void CPU6502::DCP(const std::function<uint16_t()>& addressing) {
     uint8_t *data = read(addressing());
     DEC(data);
     CMP(*data);
 }
 
 //INC+SBC
-void CPU6502::ISB(std::function<uint16_t()> addressing) {
+void CPU6502::ISB(const std::function<uint16_t()>& addressing) {
     uint8_t* data = read(addressing());
     INC(data);
     SBC(*data);
 }
 
 //ASL+ORA
-void CPU6502::SLO(std::function<uint16_t()> addressing) {
+void CPU6502::SLO(const std::function<uint16_t()>& addressing) {
     uint8_t* data = read(addressing());
     ASL_val(data);
     ORA(*data);
@@ -1108,7 +1109,7 @@ void CPU6502::SLO(std::function<uint16_t()> addressing) {
 }
 
 //ROL+AND
-void CPU6502::RLA(std::function<uint16_t()> addressing) {
+void CPU6502::RLA(const std::function<uint16_t()>& addressing) {
     uint8_t* data = read(addressing());
     ROL_val(data);
     AND(*data);
@@ -1117,7 +1118,7 @@ void CPU6502::RLA(std::function<uint16_t()> addressing) {
 }
 
 //LSR+EOR
-void CPU6502::SRE(std::function<uint16_t()> addressing) {
+void CPU6502::SRE(const std::function<uint16_t()>& addressing) {
     uint8_t* data = read(addressing());
     LSR_val(data);
     EOR(*data);
@@ -1126,7 +1127,7 @@ void CPU6502::SRE(std::function<uint16_t()> addressing) {
 }
 
 //ROR+ADC
-void CPU6502::RRA(std::function<uint16_t()> addressing) {
+void CPU6502::RRA(const std::function<uint16_t()>& addressing) {
     uint8_t* data = read(addressing());
     ROR_val(data);
     ADC(*data);

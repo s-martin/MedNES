@@ -33,7 +33,7 @@ private:
     
 public:
     std::vector<uint8_t> getChrData() { return chrData; };
-    void open(std::string);
+    void open(const std::string&);
     void printHeader();
     void loadTestProgramcode(std::vector<uint8_t>);
     int getMirroring();
