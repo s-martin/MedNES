@@ -480,8 +480,9 @@ inline void PPU::decrementSpriteCounters() {
     }
     
     for (auto & spriteRenderEntitie : spriteRenderEntities) {
-        if (spriteRenderEntities.size() == 0)
+        if (spriteRenderEntities.size() == 0) {
             break;
+		}
         if (spriteRenderEntitie.counter != 0) {
            spriteRenderEntitie.counter--;
             
@@ -573,8 +574,9 @@ void PPU::evalSprites() {
         
         switch (cycle) {
             case 0 ... 1:
-                if (!isUninit(sprite))
+                if (!isUninit(sprite)) {
                     out = SpriteRenderEntity();
+				}
                 break;
                 
             case 2:
@@ -587,8 +589,9 @@ void PPU::evalSprites() {
                 break;
                 
             case 3:
-                if (!isUninit(sprite))
+                if (!isUninit(sprite)) {
                     out.counter = sprite.x;
+				}
                 break;
                 
             case 4:
@@ -609,8 +612,9 @@ void PPU::evalSprites() {
                 break;
                 
             case 7:
-                if (!isUninit(sprite))
+                if (!isUninit(sprite)) {
                     spriteRenderEntities.push_back(out);
+				}
                 
                 secondaryOAMCursor++;
                 break;
@@ -627,8 +631,9 @@ uint16_t PPU::getSpritePatternAddress(const Sprite &sprite, bool flipVertically)
     if (spriteHeight == 8) {
         int fineOffset = scanLine - sprite.y;
         
-        if (flipVertically)
+        if (flipVertically) {
             fineOffset = spriteHeight-1 - fineOffset;
+		}
         
         addr = (((uint16_t) ppuctrl & 8) << 9) |
         ((uint16_t) sprite.tileNum << 4) |
@@ -637,8 +642,9 @@ uint16_t PPU::getSpritePatternAddress(const Sprite &sprite, bool flipVertically)
         
         int fineOffset = scanLine - sprite.y;
         
-        if (flipVertically)
+        if (flipVertically) {
             fineOffset = spriteHeight-1 - fineOffset;
+		}
         addr = (((uint16_t) sprite.tileNum & 1) << 12) |
         ((uint16_t) ((sprite.tileNum & ~1) << 4)) |
         fineOffset;
